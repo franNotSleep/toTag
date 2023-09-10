@@ -1,0 +1,11 @@
+User have a full screen text-area to write
+User will be able to see in real-time the changes he is doing in the other half of the screen
+Convert According to markdown cheat sheet.
+Add extra convert functionality such as button
+Parse ''-btn-title' to <button>title</button>
+Users can pick a style for his html (using tailwind-css).
+Users can add simple layout to his page.
+Users can save result.
+Users can download result.
+Users can upload markdown.
+Users will save in indexedDB.
