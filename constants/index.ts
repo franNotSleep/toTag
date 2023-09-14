@@ -1,3 +1,5 @@
+import { AiFillFolder, AiFillInfoCircle, AiFillSave, AiOutlinePlus } from "react-icons/ai";
+
 export const defaultMarkdown = `# 🐶 Dog Wants to Use a PC! 🖥️
 
 Hey everyone, meet Max the tech-savvy pup! 🐾
@@ -30,3 +32,21 @@ Platey's Bread Transformation Checklist:
 Stay tuned as Platey embarks on this crusty adventure to fulfill its ultimate carb destiny! 🥪🎉
 
 * Powered by platefuls of determination! 🍽️💪`;
+
+export const navLinks = [
+  {
+    tooltip: "Save",
+    href: undefined,
+    icon: AiFillSave,
+  },
+  {
+    tooltip: "Files",
+    href: "/files",
+    icon: AiFillFolder,
+  },
+  {
+    tooltip: "How to use",
+    href: "/",
+    icon: AiFillInfoCircle,
+  },
+];

@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 import daisyui from "daisyui";
 import typography from "@tailwindcss/typography";
+import tailwindScrollbar from "tailwind-scrollbar";
 
 const config: Config = {
   content: [
@@ -16,8 +17,8 @@ const config: Config = {
     },
   },
   daisyui: {
-    themes: ["light", "dark", "cupcake", "pastel"],
+    themes: ["retro"],
   },
-  plugins: [daisyui, typography],
+  plugins: [daisyui, typography, tailwindScrollbar],
 };
 export default config;

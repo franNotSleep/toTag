@@ -1,4 +1,3 @@
-import Navbar from "@/components/Nav";
 import "./globals.css";
 import type { Metadata } from "next";
 import Sidebar from "@/components/Sidebar";
@@ -14,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="pastel">
+    <html lang="en" className="scroll-smooth">
       <body className="h-screen flex w-screen">
         <Sidebar />
         {children}

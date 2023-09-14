@@ -4,7 +4,10 @@
 
 @layer components {
   .sidebar-icon {
-    @apply relative flex items-center justify-center h-12 w-12 mt-2 mb-2 mx-auto shadow-lg;
+    @apply  relative flex items-center justify-center h-12 w-12 mt-2 mb-2 mx-auto shadow-xl;
+  }
+ .scale-transition {
+    @apply transition ease-in-out duration-150 hover:bg-secondary hover:scale-110 ;
   }
 }
 
