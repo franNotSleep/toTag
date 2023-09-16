@@ -12,7 +12,7 @@ import Toast from "@/components/Toast";
 const seconds = 4000;
 
 export default function Home() {
-  const [input, setInput] = useState(defaultMarkdown);
+  const [input, setInput] = useState(localStorage.getItem("lastFileCreated") ?? defaultMarkdown);
   const [outputHtml, setOuputHtml] = useState("");
 
   const [showToasts, setShowToasts] = useState([false, false]);
@@ -42,6 +42,7 @@ export default function Home() {
     }
 
     setShowToasts([true, false]);
+    localStorage.setItem("lastFileCreated", input);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -78,3 +79,4 @@ export default function Home() {
     </main>
   );
 }
+

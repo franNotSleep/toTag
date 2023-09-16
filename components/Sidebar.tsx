@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { IconType } from "react-icons";
 import { AiFillSave, AiFillFolder, AiFillInfoCircle } from "react-icons/ai";
-import { BsSunFill, BsFillMoonFill } from "react-icons/bs";
 
 export default function Sidebar() {
   const handleOpenModal = () => {
@@ -12,7 +11,7 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="flex flex-col text-white bg-primary shadow-xl left-0 top-0 h-screen w-24 m-0">
+    <div className="flex flex-col text-white bg-primary shadow-xl p-4 m-0">
       <Link href={"/"} className="mx-auto">
         <button
           className="scale-transition btn p-1 mt-2 btn-circle mx-auto tooltip tooltip-right z-50"
