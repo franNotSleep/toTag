@@ -1,6 +1,7 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { AiFillInfoCircle, AiFillEdit, AiFillDelete } from "react-icons/ai";
-export default function CardMenu() {
+import Link from "next/link";
+export default function CardMenu({ id }: { id: number}) {
   return (
     <div className="dropdown">
       <summary
@@ -14,10 +15,10 @@ export default function CardMenu() {
         className="p-2 shadow  menu dropdown-content z-[1] bg-base-100 rounded-box"
       >
         <li>
-          <a className="text-lg">
+          <Link href={`/files/edit-file/${id}`} className="text-lg">
             <AiFillEdit />
             Edit
-          </a>
+          </Link>
         </li>
         <li>
           <a className="text-lg">

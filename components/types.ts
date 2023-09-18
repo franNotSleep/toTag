@@ -5,7 +5,11 @@ export interface TextareaProps {
   value: string;
 }
 
-export interface OutputProps {
+export interface PreviewProps {
   html: string;
   outputStyles: string;
+}
+
+export interface ParamsIdProps {
+  params: { id: string };
 }

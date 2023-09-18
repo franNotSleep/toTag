@@ -3,15 +3,12 @@
 import GetFile from "@/lib/dbOperations/getFile";
 import { Markdown } from "@/lib/markdown-to-html/markdownParser";
 import { useEffect, useState } from "react";
-import Output from "@/components/Output";
+import Preview from "@/components/Preview";
+import { ParamsIdProps } from "@/components/types";
 
-interface PreviewProps {
-  params: { id: string };
-}
 
-export default function Preview({ params: { id } }: PreviewProps) {
+export default function PreviewFile({ params: { id } }: ParamsIdProps) {
   const [html, setHtml] = useState("");
-  console.log(id);
 
   useEffect(() => {
     (async () => {
@@ -23,7 +20,7 @@ export default function Preview({ params: { id } }: PreviewProps) {
     })();
   }, []);
 
-  return <Output  html={html} outputStyles="p-4 mx-auto"/>;
+  return <Preview  html={html} outputStyles="p-4 mx-auto"/>;
 }
 
 async function GetHtml(id: number): Promise<string | undefined> {

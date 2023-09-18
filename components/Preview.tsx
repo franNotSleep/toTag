@@ -1,6 +1,6 @@
-import { OutputProps } from './types';
+import { PreviewProps } from './types';
 
-export default function Output({ html, outputStyles }: OutputProps) {
+export default function Preview({ html, outputStyles }: PreviewProps) {
   return (
     <div
       className={`w-full prose lg:prose-xl overflow-wrap whitespace-pre-wrap overflow-y-auto ${outputStyles}`}

@@ -1,21 +1,16 @@
-import { htmlFilesTable } from "../../db.config";
+import { HtmlFile, htmlFilesTable } from "../../db.config";
 import { IndexableType } from "dexie";
-import validatedData from "./validatedData";
 
-export type Data = {
-  title: string;
-  content: string;
-};
-
-type IndexableTypeOrNull = IndexableType | null;
+export type IndexableTypeOrNull = IndexableType | null;
 
 export default async function Update(
-  data: Data,
+  data: HtmlFile,
 ): Promise<[IndexableTypeOrNull, string]> {
   try {
-    let validData = validatedData(data);
-    const id = await htmlFilesTable.add(validData);
-    return [id, `Updated file with id "${id}".`];
+    const { content, id, title } = data;
+    const updatedRowsCount = await htmlFilesTable.update(id, { content, title, updatedAt: Date.now()  });
+
+    return [id as IndexableType, `${updatedRowsCount} updated rows.`];
   } catch (e: any) {
     return [null, e.message];
   }

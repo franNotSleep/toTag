@@ -1,2 +1,9 @@
-If id can't be found in the URL, then operation is Create, And prompt for title.
-If id is found, the operations is Update, And updatedAt property must be Updated.
+Save Button will have to diffrent purpose, it will create or update.
+This purpose are going to be determined by if file is editing or creating.
+Save button is going to know if a file is editing or creating base on a global state called isEditing, we will use useContext for this.
+The plus button will clean the home page input and setEditing to false.
+the Edit button on FileCard components will send you to a new page where you can edit your components, and setEdit to true.
+The newly created or recently updated file will be save it as lastVisited in local storage, for the next time the user visits the page, that is what he will see in the home screen input.
+
+Details button will give you, obviously, more details about the file, things like: Created Date, Updated Date, Length, and Title.
+Delete button will delete the File from the database and will show a toast as a feedback for the user.

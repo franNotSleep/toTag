@@ -1,8 +1,8 @@
 import { FaDownload } from "react-icons/fa";
 import CardMenu from "./CardMenu";
-import { MdPreview } from "react-icons/md";
 import Link from "next/link";
 import { Markdown } from "@/lib/markdown-to-html/markdownParser";
+import { AiFillEye } from "react-icons/ai";
 
 export default function FileCard({
   title,
@@ -43,7 +43,7 @@ export default function FileCard({
   return (
     <div className="card lg:w-96 md:w-72 bg-primary shadow-xl relative">
       <div className="absolute top-0 left-0">
-        <CardMenu />
+        <CardMenu id={id} />
       </div>
       <div className="card-body flex flex-col justify-around items-center text-center">
         <h2 className="w-52 card-title underline decoration-secondary  decoration-4 p-4">
@@ -58,10 +58,12 @@ export default function FileCard({
             Download
             <FaDownload />
           </button>
-          <button className="btn btn-secondary rounded-lg shadow-lg">
-            <Link href={`files/file-preview/${id}`}>Preview</Link>
-            <MdPreview />
-          </button>
+          <Link href={`files/file-preview/${id}`}>
+            <button className="btn btn-secondary rounded-lg shadow-lg">
+              Preview
+              <AiFillEye size="20" />
+            </button>
+          </Link>
         </div>
       </div>
     </div>

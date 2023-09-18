@@ -9,6 +9,9 @@
  .scale-transition {
     @apply transition ease-in-out duration-150 hover:bg-secondary hover:scale-110 ;
   }
+  .sidebar-btn {
+    @apply scale-transition sidebar-icon btn btn-circle flex tooltip tooltip-right z-50;
+  }
 }
 
 html,

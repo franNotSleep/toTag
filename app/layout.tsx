@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className="flex">
+      <body>
         <Sidebar />
         {children}
       </body>
