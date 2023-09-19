@@ -10,6 +10,7 @@ import { BiPencil } from "react-icons/bi";
 import useShowToast from "@/hooks/useShowToast";
 import { HtmlFile } from "@/db.config";
 import { setFileLocalStorage } from "@/lib/setFileLocalStorage";
+import DetailsModal from "./DetailsModal";
 
 export default function FileCard({ file }: { file: HtmlFile }) {
   const { showFailToast, showSuccessToast, setToastMessage, toast } =
@@ -64,10 +65,10 @@ export default function FileCard({ file }: { file: HtmlFile }) {
   return (
     <div className="card lg:w-96 md:w-72 bg-primary shadow-xl relative">
       <div className="absolute top-0 left-0">
-        <CardMenu id={file?.id ?? 0} />
+        <CardMenu id={file?.id ?? 0}  file={file}/>
       </div>
       <div className="card-body flex flex-col justify-around items-center text-center">
-        <h2 className="w-52 card-title underline decoration-secondary  decoration-4 p-4">
+        <h2 className="w-52 card-title text-underline-decoration p-4">
           {file.title}
           <span
             className="transition duration-150 cursor-pointer hover:text-secondary tooltip"

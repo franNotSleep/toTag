@@ -1,7 +1,16 @@
+import DetailsModal from "./DetailsModal";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { AiFillInfoCircle, AiFillEdit, AiFillDelete } from "react-icons/ai";
 import Link from "next/link";
-export default function CardMenu({ id }: { id: number}) {
+import { HtmlFile } from "@/db.config";
+export default function CardMenu({ id, file }: { id: number, file: HtmlFile}) {
+
+  function handleOpenModal() {
+    (
+      document.getElementById(file.id?.toString() ?? "") as HTMLDialogElement
+    ).showModal();
+  }
+
   return (
     <div className="dropdown">
       <summary
@@ -21,7 +30,7 @@ export default function CardMenu({ id }: { id: number}) {
           </Link>
         </li>
         <li>
-          <a className="text-lg">
+          <a className="text-lg" onClick={handleOpenModal}>
             <AiFillInfoCircle />
             Details
           </a>
@@ -33,6 +42,7 @@ export default function CardMenu({ id }: { id: number}) {
           </a>
         </li>
       </ul>
+      <DetailsModal file={file} modalId={file.id?.toString() ?? ""}/>
     </div>
   );
 }
