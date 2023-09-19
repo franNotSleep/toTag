@@ -12,10 +12,8 @@ export default function Files() {
       <div className="flex flex-wrap gap-4 items-center justify-center">
         {files?.map((file) => (
           <FileCard
-            id={file.id ?? -1}
-            title={file.title}
+            file={file}
             key={file.id}
-            bufferedContent={file.content}
           />
         ))}
       </div>

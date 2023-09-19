@@ -7,13 +7,8 @@ import {
 } from "react-icons/ai";
 
 export default function Sidebar() {
-  function handleOpenModal() {
-    (document.getElementById("my_modal_1") as HTMLDialogElement).showModal();
-  }
-
-  // const editPath = /\/files\/edit-file\/[0-9]*/;
   return (
-    <div className="absolute bottom-8 left-4">
+    <div className="fixed-btn">
       <div className="dropdown dropdown-top">
         <button className="sidebar-btn">
           <Image height={100} width={100} alt="home button" src="/tag.svg" />

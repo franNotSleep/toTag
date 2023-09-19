@@ -12,6 +12,9 @@
   .sidebar-btn {
     @apply scale-transition sidebar-icon btn btn-circle flex tooltip tooltip-right z-50;
   }
+  .fixed-btn {
+    @apply fixed bottom-4 left-4 z-50;
+  }
 }
 
 html,

@@ -11,7 +11,6 @@ Max has been watching his human use the PC for days, and he's determined to get 
 - 🎮 Play virtual fetch games
 - 📺 Netflix and Chill with doggy documentaries
 
-Max is ready to unleash his inner computer genius. Stay tuned for more pawsome updates! 🐕💻
 * Powered by puppy dreams and a sprinkle of curiosity.
 # 🍽️ Plate Dreams of Becoming Bread! 🍞
 Hello, world! 🌍

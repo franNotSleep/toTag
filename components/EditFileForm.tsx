@@ -6,14 +6,14 @@ import Preview from "./Preview";
 import { useState, useEffect } from "react";
 import { Markdown } from "@/lib/markdown-to-html/markdownParser";
 import Toast from "./Toast";
-import CreateFileModal from "./CreateFileModal";
+import CreateOrUpdateTitleModal from "./CreateOrUpdateTitleModal";
 import Create from "@/lib/dbOperations/createFile";
 import { AiFillSave } from "react-icons/ai";
 import { EditContext } from "@/contexts/EditContext";
 import Update, { IndexableTypeOrNull } from "@/lib/dbOperations/updateFile";
 import { HtmlFile } from "@/db.config";
-
-const seconds = 4000;
+import { setFileLocalStorage } from "@/lib/setFileLocalStorage";
+import useShowToast from "@/hooks/useShowToast";
 
 interface EditFileFormProps {
   initialMarkdown?: string;
@@ -28,9 +28,8 @@ export default function EditFileForm({
 }: EditFileFormProps) {
   const [input, setInput] = useState(initialMarkdown);
   const [outputHtml, setOuputHtml] = useState("");
-
-  const [showToasts, setShowToasts] = useState([false, false]);
-  const [toastMessage, setToastMessage] = useState("");
+  const { showSuccessToast, showFailToast, setToastMessage, toast } =
+    useShowToast(4);
 
   const editing = useContext(EditContext);
 
@@ -47,18 +46,19 @@ export default function EditFileForm({
 
   async function UpdateOrOpenModal() {
     if (!editing) {
-      return handleOpenModal;
+      return handleOpenModal();
     }
     const file = await updateFile();
-
     setToastMessage(file[1]);
 
     if (!file[0]) {
-      setShowToasts([false, true]);
+      await showFailToast();
+    } else {
+      await showSuccessToast();
     }
 
-    setShowToasts([true, false]);
-    localStorage.setItem("lastFileCreated", input);
+    if (currentFile)
+      setFileLocalStorage({ ...currentFile, content: Buffer.from(input) });
   }
 
   async function handleCreate(title: string) {
@@ -67,11 +67,13 @@ export default function EditFileForm({
     setToastMessage(file[1]);
 
     if (!file[0]) {
-      setShowToasts([false, true]);
+      showFailToast();
+    } else {
+      showSuccessToast();
     }
 
-    setShowToasts([true, false]);
-    localStorage.setItem("lastFileCreated", input);
+    if (currentFile)
+      setFileLocalStorage({ ...currentFile, content: Buffer.from(input) });
   }
 
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -96,20 +98,6 @@ export default function EditFileForm({
     setOuputHtml(html);
   }, [input]);
 
-  useEffect(() => {
-    if (showToasts[0]) {
-      setTimeout(() => {
-        setShowToasts([false, false]);
-      }, seconds);
-    }
-
-    if (showToasts[1]) {
-      setTimeout(() => {
-        setShowToasts([false, false]);
-      }, seconds);
-    }
-  }, [showToasts]);
-
   return (
     <div className="flex w-screen">
       <Textarea
@@ -125,7 +113,7 @@ export default function EditFileForm({
         outputStyles="h-screen placeholder:italic placeholder:text-slace-400 placeholder:text-2xl"
         html={outputHtml}
       />
-      <div className="absolute bottom-8 right-8">
+      <div className="fixed bottom-8 right-8">
         <button
           className="sidebar-btn tooltip tooltip-bottom"
           data-tip="Save"
@@ -134,9 +122,9 @@ export default function EditFileForm({
           <AiFillSave size="20" />
         </button>
       </div>
-      <CreateFileModal handleSave={handleCreate} />
-      {showToasts[0] && <Toast type="success" msg={toastMessage} />}
-      {showToasts[1] && <Toast type="error" msg={toastMessage} />}
+      <CreateOrUpdateTitleModal handleSave={handleCreate} />
+      {toast.showSuccessToast && <Toast type="success" msg={toast.message} />}
+      {toast.showFailToast && <Toast type="error" msg={toast.message} />}
     </div>
   );
 }

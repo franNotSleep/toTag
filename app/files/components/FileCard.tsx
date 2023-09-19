@@ -1,28 +1,29 @@
+import Toast from "@/components/Toast";
+import CreateOrUpdateTitleModal from "@/components/CreateOrUpdateTitleModal";
 import { FaDownload } from "react-icons/fa";
+import Update from "@/lib/dbOperations/updateFile";
 import CardMenu from "./CardMenu";
 import Link from "next/link";
 import { Markdown } from "@/lib/markdown-to-html/markdownParser";
 import { AiFillEye } from "react-icons/ai";
+import { BiPencil } from "react-icons/bi";
+import useShowToast from "@/hooks/useShowToast";
+import { HtmlFile } from "@/db.config";
+import { setFileLocalStorage } from "@/lib/setFileLocalStorage";
 
-export default function FileCard({
-  title,
-  bufferedContent,
-  id,
-}: {
-  title: string;
-  bufferedContent: Buffer;
-  id: number;
-}) {
-  let buffer = Buffer.from(bufferedContent);
+export default function FileCard({ file }: { file: HtmlFile }) {
+  const { showFailToast, showSuccessToast, setToastMessage, toast } =
+    useShowToast(4);
+  let buffer = Buffer.from(file.content);
   let content = buffer.toString();
 
-  if (content.length > 30) {
+  if (content.length > 200) {
     content = content.substring(0, 200) + "...";
   }
 
   function handleDownload() {
     const html = new Markdown().ToHtml(buffer.toString());
-    const myFile = new File([html], `${title}.html`);
+    const myFile = new File([html], `${file.title}.html`);
     downloadFile(myFile);
   }
 
@@ -40,14 +41,41 @@ export default function FileCard({
     link.parentNode?.removeChild(link);
   }
 
+  function handleOpenModal() {
+    (
+      document.getElementById(file.updatedAt.toString()) as HTMLDialogElement
+    ).showModal();
+  }
+
+  async function updateTitle(input: string) {
+    const [id, message] = await Update({ ...file, title: input });
+
+    setToastMessage(message);
+
+    if (!id) {
+      await showFailToast();
+    } else {
+      await showSuccessToast();
+    }
+
+    setFileLocalStorage({ ...file, content: Buffer.from(input) });
+  }
+
   return (
     <div className="card lg:w-96 md:w-72 bg-primary shadow-xl relative">
       <div className="absolute top-0 left-0">
-        <CardMenu id={id} />
+        <CardMenu id={file?.id ?? 0} />
       </div>
       <div className="card-body flex flex-col justify-around items-center text-center">
         <h2 className="w-52 card-title underline decoration-secondary  decoration-4 p-4">
-          {title}
+          {file.title}
+          <span
+            className="transition duration-150 cursor-pointer hover:text-secondary tooltip"
+            data-tip="Change title"
+            onClick={handleOpenModal}
+          >
+            <BiPencil />
+          </span>
         </h2>
         <p className="text-neutral-300">{content}</p>
         <div className="card-actions justify-end mt-4">
@@ -58,7 +86,7 @@ export default function FileCard({
             Download
             <FaDownload />
           </button>
-          <Link href={`files/file-preview/${id}`}>
+          <Link href={`files/file-preview/${file.id}`}>
             <button className="btn btn-secondary rounded-lg shadow-lg">
               Preview
               <AiFillEye size="20" />
@@ -66,6 +94,13 @@ export default function FileCard({
           </Link>
         </div>
       </div>
+      <CreateOrUpdateTitleModal
+        modalId={file.updatedAt.toString()}
+        handleSave={updateTitle}
+        currentFile={file}
+      />
+      {toast.showSuccessToast && <Toast type="success" msg={toast.message} />}
+      {toast.showFailToast && <Toast type="error" msg={toast.message} />}
     </div>
   );
 }

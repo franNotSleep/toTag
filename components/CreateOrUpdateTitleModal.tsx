@@ -1,25 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { EditContext } from "@/contexts/EditContext";
+import { HtmlFile } from "@/db.config";
+import { useContext, useEffect, useState } from "react";
 
 interface CreateFileModalProps {
   handleSave(title: string): void;
+  currentFile?: HtmlFile;
+  modalId?: string;
 }
 
-export default function CreateFileModal({ handleSave }: CreateFileModalProps) {
-  const [input, setInput] = useState("");
+export default function CreateOrUpdateTitleModal({
+  handleSave,
+  currentFile,
+  modalId = "my_modal_1"
+}: CreateFileModalProps) {
+  const editing = useContext(EditContext);
+  const [input, setInput] = useState(currentFile?.title ?? "");
+
   const handleCancel = () => {
     setInput("");
   };
 
-  const handleCreate = () => {
+  const handleUpdateOrCreate = () => {
     handleSave(input);
   };
 
   return (
-    <dialog id="my_modal_1" className="modal">
+    <dialog id={modalId} className="modal">
       <div className="modal-box">
-        <h3 className="font-bold text-lg">Create new file</h3>
+        <h3 className="font-bold text-lg">
+          {editing ? "Change title" : "Create new file"}
+        </h3>
         <label className="label mt-2">
           <span className="label-text">Title</span>
         </label>
@@ -36,7 +48,7 @@ export default function CreateFileModal({ handleSave }: CreateFileModalProps) {
             <div className="flex gap-8">
               <button
                 className="rounded-lg btn btn-success"
-                onClick={handleCreate}
+                onClick={handleUpdateOrCreate}
               >
                 Create
               </button>
