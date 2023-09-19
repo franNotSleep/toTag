@@ -13,9 +13,9 @@ export default function DetailsModal({
   return (
     <dialog id={modalId} className="modal modal-bottom sm:modal-middle">
       <div className="modal-box">
-        <div className="card w-96 bg-base-100">
+        <div className="card bg-base-100">
           <div className="card-body">
-            <h2 className="card-title flex gap-2 items-center">{file.title}</h2>
+            <h2 className="card-title flex gap-2 items-center">File Details</h2>
             <h2 className="flex gap-2 items-center">
               <span className="text-underline-decoration">Title</span>
               <span className="badge badge-primary">{file.title}</span>
