@@ -11,6 +11,8 @@ import useShowToast from "@/hooks/useShowToast";
 import { HtmlFile } from "@/db.config";
 import { setFileLocalStorage } from "@/lib/setFileLocalStorage";
 import DetailsModal from "./DetailsModal";
+import Delete from "@/lib/dbOperations/deleteFile";
+import { IndexableType } from "dexie";
 
 export default function FileCard({ file }: { file: HtmlFile }) {
   const { showFailToast, showSuccessToast, setToastMessage, toast } =
@@ -62,10 +64,22 @@ export default function FileCard({ file }: { file: HtmlFile }) {
     setFileLocalStorage({ ...file, content: Buffer.from(input) });
   }
 
+  async function deleteFile() {
+    const [id, message] = await Delete(file.id as IndexableType);
+
+    setToastMessage(message);
+
+    if (!id) {
+      await showFailToast();
+    } else {
+      await showSuccessToast();
+    }
+  }
+
   return (
     <div className="card lg:w-96 md:w-72 bg-primary shadow-xl relative">
       <div className="absolute top-0 left-0">
-        <CardMenu id={file?.id ?? 0}  file={file}/>
+        <CardMenu id={file?.id ?? 0} handleDelete={deleteFile} file={file}/>
       </div>
       <div className="card-body flex flex-col justify-around items-center text-center">
         <h2 className="w-52 card-title text-underline-decoration p-4">

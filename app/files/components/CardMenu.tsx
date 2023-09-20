@@ -3,8 +3,14 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { AiFillInfoCircle, AiFillEdit, AiFillDelete } from "react-icons/ai";
 import Link from "next/link";
 import { HtmlFile } from "@/db.config";
-export default function CardMenu({ id, file }: { id: number, file: HtmlFile}) {
 
+interface CardMenuProps {
+  handleDelete(): Promise<void>;
+  id: number;
+  file: HtmlFile;
+}
+
+export default function CardMenu({ id, file, handleDelete }: CardMenuProps) {
   function handleOpenModal() {
     (
       document.getElementById(file.id?.toString() ?? "") as HTMLDialogElement
@@ -36,13 +42,13 @@ export default function CardMenu({ id, file }: { id: number, file: HtmlFile}) {
           </a>
         </li>
         <li>
-          <a className="text-lg">
+          <a className="text-lg" onClick={handleDelete}>
             <AiFillDelete />
             Delete
           </a>
         </li>
       </ul>
-      <DetailsModal file={file} modalId={file.id?.toString() ?? ""}/>
+      <DetailsModal file={file} modalId={file.id?.toString() ?? ""} />
     </div>
   );
 }
