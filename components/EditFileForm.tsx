@@ -97,25 +97,17 @@ export default function EditFileForm({
       </div>
 
       <div className="mx-auto container flex-grow overflow-y-auto p-4">
-        <div className="flex h-full w-full">
+        <div className="flex-grow flex h-full w-full">
           {(currentView === 0 || currentView === 1) && (
             <Textarea
               placeholder="# Hello bro"
-              textareaStyles={`w-full placeholder:italic placeholder:text-slace-400 placeholder:text-md`}
               handleChange={handleChange}
               value={input}
             />
           )}
 
-          {currentView === 1 && (
-            <div className="divider divider-horizontal"></div>
-          )}
-
           {(currentView === 2 || currentView === 1) && (
-            <Preview
-              outputStyles={`placeholder:italic placeholder:text-slace-400 placeholder:text-2xl`}
-              html={outputHtml}
-            />
+            <Preview html={outputHtml} />
           )}
           <div className="fixed bottom-8 right-8">
             <button

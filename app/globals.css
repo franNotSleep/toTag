@@ -21,6 +21,9 @@
   .custom-textarea {
     @apply textarea bg-base-200 textarea-ghost focus:outline-0;
   }
+  .textarea-placeholder {
+    @apply placeholder:italic placeholder:text-base-100 placeholder:prose-slate;
+  }
 }
 
 html,
