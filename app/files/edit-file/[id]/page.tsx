@@ -10,15 +10,6 @@ import {  useEffect,useState } from "react";
 export default function Page({ params }: ParamsIdProps) {
   const [currentFile, setCurrentFile] = useState<HtmlFile | null>(null);
 
-  async function setMarkdownAsync() {
-    const buffer = (await GetFile(Number(params.id)))?.content;
-    if (buffer) {
-      const markdown = Buffer.from(buffer).toString();
-      return markdown;
-    }
-    return "";
-  }
-
   useEffect(() => {
     (async () => {
       const file = await GetFile(Number(params.id));
@@ -31,7 +22,7 @@ export default function Page({ params }: ParamsIdProps) {
   return (
     <main>
       <EditContext.Provider value={true}>
-          <EditFileForm currentFile={currentFile} setInitialMarkdownAsync={setMarkdownAsync} />
+          <EditFileForm currentFile={currentFile} />
       </EditContext.Provider>
     </main>
   );

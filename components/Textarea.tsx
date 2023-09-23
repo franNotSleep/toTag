@@ -9,7 +9,7 @@ export default function Textarea({
   return (
     <textarea
       onChange={handleChange}
-      className={`textarea w-full focus:outline-0 ${textareaStyles}`}
+      className={`custom-textarea ${textareaStyles}`}
       placeholder={placeholder}
       value={value}
     ></textarea>

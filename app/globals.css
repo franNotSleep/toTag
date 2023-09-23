@@ -18,6 +18,9 @@
   .text-underline-decoration {
     @apply underline decoration-secondary  decoration-4;
   }
+  .custom-textarea {
+    @apply textarea bg-base-200 textarea-ghost focus:outline-0;
+  }
 }
 
 html,
@@ -29,5 +32,9 @@ body {
 
 .overflow-wrap {
   overflow-wrap: break-word;
+}
+
+textarea {
+  resize: none;
 }
 

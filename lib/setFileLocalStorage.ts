@@ -6,7 +6,6 @@ import { HtmlFile } from '../db.config';
 
 export function getFileLocalStorage() {
   const lastFileEditedJSON = localStorage.getItem('lastFileEdited')
-  console.log(lastFileEditedJSON);
 
   if (lastFileEditedJSON) {
       return JSON.parse(lastFileEditedJSON) as HtmlFile;

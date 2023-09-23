@@ -3,6 +3,7 @@
 import React, { useContext } from "react";
 import Textarea from "./Textarea";
 import Preview from "./Preview";
+import Tab from "./Tab";
 import { useState, useEffect } from "react";
 import { Markdown } from "@/lib/markdown-to-html/markdownParser";
 import Toast from "./Toast";
@@ -17,19 +18,17 @@ import useShowToast from "@/hooks/useShowToast";
 
 interface EditFileFormProps {
   initialMarkdown?: string;
-  setInitialMarkdownAsync?(): Promise<string | undefined>;
   currentFile: HtmlFile | null;
 }
 
 export default function EditFileForm({
   initialMarkdown = "hola",
-  setInitialMarkdownAsync,
   currentFile,
 }: EditFileFormProps) {
   const [input, setInput] = useState(initialMarkdown);
   const [outputHtml, setOuputHtml] = useState("");
-  const { showSuccessToast, showFailToast, setToastMessage, toast } =
-    useShowToast(4);
+  const [currentView, setCurrentView] = useState(0);
+  const { showToast, toast } = useShowToast(4);
 
   const editing = useContext(EditContext);
 
@@ -48,29 +47,16 @@ export default function EditFileForm({
     if (!editing) {
       return handleOpenModal();
     }
-    const file = await updateFile();
-    setToastMessage(file[1]);
-
-    if (!file[0]) {
-      await showFailToast();
-    } else {
-      await showSuccessToast();
-    }
+    const [id, message] = await updateFile();
+    showToast(!!id, message);
 
     if (currentFile)
       setFileLocalStorage({ ...currentFile, content: Buffer.from(input) });
   }
 
   async function handleCreate(title: string) {
-    const file = await Create({ title, content: input });
-
-    setToastMessage(file[1]);
-
-    if (!file[0]) {
-      showFailToast();
-    } else {
-      showSuccessToast();
-    }
+    const [id, message] = await Create({ title, content: input });
+    showToast(!!id, message);
 
     if (currentFile)
       setFileLocalStorage({ ...currentFile, content: Buffer.from(input) });
@@ -81,13 +67,10 @@ export default function EditFileForm({
   }
 
   useEffect(() => {
-    (async () => {
-      if (setInitialMarkdownAsync) {
-        const markdown = await setInitialMarkdownAsync();
-        if (markdown) setInput(markdown);
-      }
-    })();
-  }, []);
+    if (currentFile) {
+      setInput(Buffer.from(currentFile.content).toString());
+    }
+  }, [currentFile]);
 
   useEffect(() => {
     const markdown = new Markdown();
@@ -99,32 +82,57 @@ export default function EditFileForm({
   }, [input]);
 
   return (
-    <div className="flex w-screen">
-      <Textarea
-        placeholder="# Hello bro"
-        textareaStyles="placeholder:italic placeholder:text-slace-400 placeholder:text-md"
-        handleChange={handleChange}
-        value={input}
-      />
-
-      <div className="divider divider-horizontal">TO</div>
-
-      <Preview
-        outputStyles="h-screen placeholder:italic placeholder:text-slace-400 placeholder:text-2xl"
-        html={outputHtml}
-      />
-      <div className="fixed bottom-8 right-8">
-        <button
-          className="sidebar-btn tooltip tooltip-bottom"
-          data-tip="Save"
-          onClick={UpdateOrOpenModal}
+    <div className="flex flex-col h-screen">
+      <div className="h-24">
+        <Tab
+          setCurrentTab={(currentTab) => {
+            setCurrentView(currentTab);
+          }}
+          initialTab={currentView}
         >
-          <AiFillSave size="20" />
-        </button>
+          <a className="tab tab-lifted">Markdown</a>
+          <a className="tab tab-lifted max-sm:hidden">Both</a>
+          <a className="tab tab-lifted">HTML</a>
+        </Tab>
       </div>
-      <CreateOrUpdateTitleModal handleSave={handleCreate} />
-      {toast.showSuccessToast && <Toast type="success" msg={toast.message} />}
-      {toast.showFailToast && <Toast type="error" msg={toast.message} />}
+
+      <div className="mx-auto container flex-grow overflow-y-auto p-4">
+        <div className="flex h-full w-full">
+          {(currentView === 0 || currentView === 1) && (
+            <Textarea
+              placeholder="# Hello bro"
+              textareaStyles={`w-full placeholder:italic placeholder:text-slace-400 placeholder:text-md`}
+              handleChange={handleChange}
+              value={input}
+            />
+          )}
+
+          {currentView === 1 && (
+            <div className="divider divider-horizontal"></div>
+          )}
+
+          {(currentView === 2 || currentView === 1) && (
+            <Preview
+              outputStyles={`placeholder:italic placeholder:text-slace-400 placeholder:text-2xl`}
+              html={outputHtml}
+            />
+          )}
+          <div className="fixed bottom-8 right-8">
+            <button
+              className="sidebar-btn tooltip tooltip-bottom"
+              data-tip="Save"
+              onClick={UpdateOrOpenModal}
+            >
+              <AiFillSave size="20" />
+            </button>
+          </div>
+          <CreateOrUpdateTitleModal handleSave={handleCreate} />
+          {toast.showSuccessToast && (
+            <Toast type="success" msg={toast.message} />
+          )}
+          {toast.showFailToast && <Toast type="error" msg={toast.message} />}
+        </div>
+      </div>
     </div>
   );
 }

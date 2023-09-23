@@ -1,4 +1,5 @@
 import { resolveObjectURL } from "buffer";
+import { fsync } from "fs";
 import { useState } from "react";
 
 type ToastType = {
@@ -17,27 +18,28 @@ const initialState: ToastType = {
 
 export default function useShowToast(seconds: number) {
   const [toast, setToast] = useState<ToastType>(initialState);
-  let message = "";
 
-  function setToastMessage(text: string): void {
-    message = text;
+  async function showToast(condition: boolean, message: string) {
+    if (condition) {
+      await showSuccessToast(message);
+    } else {
+      await showFailToast(message);
+    }
   }
 
-  async function showSuccessToast() {
+  async function showSuccessToast(message: string) {
     setToast({ ...toast, showSuccessToast: true, message });
     await hideToast(toast, setToast, seconds);
   }
 
-  async function showFailToast() {
+  async function showFailToast(message: string) {
     setToast({ ...toast, showFailToast: true, message });
     await hideToast(toast, setToast, seconds);
   }
 
   return {
-    setToastMessage,
-    showFailToast,
-    showSuccessToast,
     toast,
+    showToast,
   };
 }
 
