@@ -11,13 +11,9 @@ const config: Config = {
   ],
   theme: {
     extend: {},
-    colors: {
-      primary: "#C0F8D1",
-      secondary: "#05F140",
-    },
   },
   daisyui: {
-    themes: ["retro"],
+    themes: ["forest"],
   },
   plugins: [daisyui, typography, tailwindScrollbar],
 };

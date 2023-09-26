@@ -15,6 +15,7 @@ import Update, { IndexableTypeOrNull } from "@/lib/dbOperations/updateFile";
 import { HtmlFile } from "@/db.config";
 import { setFileLocalStorage } from "@/lib/setFileLocalStorage";
 import useShowToast from "@/hooks/useShowToast";
+import Status from "./Status";
 
 interface EditFileFormProps {
   initialMarkdown?: string;
@@ -83,6 +84,7 @@ export default function EditFileForm({
 
   return (
     <div className="flex flex-col h-screen">
+      <Status text={editing ? "edit file": "create file"} status={editing ? "edit" : "create"} />
       <div className="h-24">
         <Tab
           setCurrentTab={(currentTab) => {
@@ -111,7 +113,7 @@ export default function EditFileForm({
           )}
           <div className="fixed bottom-8 right-8">
             <button
-              className="sidebar-btn tooltip tooltip-bottom"
+              className="sidebar-btn tooltip tooltip-top"
               data-tip="Save"
               onClick={UpdateOrOpenModal}
             >

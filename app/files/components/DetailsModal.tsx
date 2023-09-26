@@ -11,8 +11,8 @@ export default function DetailsModal({
   const updatedAt = new Date(file.updatedAt);
   const createdAt = new Date(file.createdAt);
   return (
-    <dialog id={modalId} className="modal modal-bottom sm:modal-middle">
-      <div className="modal-box">
+    <dialog id={modalId} className=" modal modal-bottom sm:modal-middle">
+      <div className="modal-box prose-md">
         <div className="card bg-base-100">
           <div className="card-body">
             <h2 className="card-title flex gap-2 items-center">File Details</h2>

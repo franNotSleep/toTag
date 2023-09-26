@@ -20,7 +20,7 @@ export default function PreviewFile({ params: { id } }: ParamsIdProps) {
     })();
   }, []);
 
-  return <Preview  html={html} outputStyles="p-4 mx-auto"/>;
+  return <Preview  html={html} />;
 }
 
 async function GetHtml(id: number): Promise<string | undefined> {

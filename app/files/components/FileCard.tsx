@@ -10,12 +10,11 @@ import { BiPencil } from "react-icons/bi";
 import useShowToast from "@/hooks/useShowToast";
 import { HtmlFile } from "@/db.config";
 import { setFileLocalStorage } from "@/lib/setFileLocalStorage";
-import DetailsModal from "./DetailsModal";
 import Delete from "@/lib/dbOperations/deleteFile";
 import { IndexableType } from "dexie";
 
 export default function FileCard({ file }: { file: HtmlFile }) {
-  const { showFailToast, showSuccessToast, setToastMessage, toast } =
+  const { showToast, toast } =
     useShowToast(4);
   let buffer = Buffer.from(file.content);
   let content = buffer.toString();
@@ -52,28 +51,13 @@ export default function FileCard({ file }: { file: HtmlFile }) {
 
   async function updateTitle(input: string) {
     const [id, message] = await Update({ ...file, title: input });
-
-    setToastMessage(message);
-
-    if (!id) {
-      await showFailToast();
-    } else {
-      await showSuccessToast();
-    }
-
+    showToast(!!id, message);
     setFileLocalStorage({ ...file, content: Buffer.from(input) });
   }
 
   async function deleteFile() {
     const [id, message] = await Delete(file.id as IndexableType);
-
-    setToastMessage(message);
-
-    if (!id) {
-      await showFailToast();
-    } else {
-      await showSuccessToast();
-    }
+    showToast(!!id, message);
   }
 
   return (
