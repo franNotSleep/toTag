@@ -113,7 +113,7 @@ export default function EditFileForm({
           )}
           <div className="fixed bottom-8 right-8">
             <button
-              className="sidebar-btn tooltip tooltip-top"
+              className="scale-transition sidebar-icon btn btn-circle flex  z-50 btn-primary tooltip tooltip-top"
               data-tip="Save"
               onClick={UpdateOrOpenModal}
             >

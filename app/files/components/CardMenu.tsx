@@ -21,7 +21,7 @@ export default function CardMenu({ id, file, handleDelete }: CardMenuProps) {
     <div className="dropdown">
       <summary
         tabIndex={0}
-        className="group-hover:bg-primary m-1 btn bg-transparent border-0 text-secondary text-2xl font-bold"
+        className="group-hover:bg-primary m-1 btn bg-transparent border-0 text-black text-2xl font-bold"
       >
         <BsThreeDotsVertical />
       </summary>
